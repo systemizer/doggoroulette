@@ -1,17 +1,24 @@
 import React, { useState } from 'react';
-import { Button } from 'evergreen-ui';
+import { 
+    Button,
+    TextInput
+} from 'evergreen-ui';
 import Websocket from 'react-websocket';
 
 export default function App(){
     
     const [chats, setChats] = useState("");
+    const [input, setInput] = useState("");
 
     async function handleClick(){
-        // console.log('handlings lots of clicks');
-        let response = await fetch("/rob");
-        let res_text = await response.text();
-        // console.log(await response.text());
-        setChats(chats + "\n" + res_text);
+        let response = await fetch("/input", {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({message: input}),
+        });
+        setInput("");
     }
     
     async function handleDataFromWebSocket(data: string){
@@ -22,6 +29,11 @@ export default function App(){
     return (
         <div>
             Chatting!
+            <TextInput 
+                placeholder="Say a hello!..."
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) => setInput(e.target.value)}
+                value={input}
+            />
             <p>These are the chats: {chats}</p>
             {/* # subscribe to chatting endpoint */}
             <Websocket url='ws://localhost:8080/chatting' onMessage={handleDataFromWebSocket}/>

@@ -1,28 +1,30 @@
 const express = require("express");
 const app = express();
 const port = 8080;
-
 let expressWs = require('express-ws')(app);
+const bodyParser = require('body-parser')
+
+app.use(bodyParser.json())
 
 app.ws('/chatting', function(ws, req) {
     ws.on('message', function(msg) {
       console.log(msg);
     });
-    console.log('socket', req.testing);
+    console.log('socket', req);
   });
+
+app.post("/input", ( req, res ) => {
+    console.log(req.body);
+    let aWss = expressWs.getWss('/chatting');
+
+    aWss.clients.forEach(function (client) {
+        client.send(req.body.message);
+        });
+    res.send("Post is ok");
+});
 
 app.get("/", ( req, res ) => {
     res.send("Hello world!");
-});
-
-app.get("/rob", ( req, res ) => {
-    var aWss = expressWs.getWss('/chatting');
-
-    aWss.clients.forEach(function (client) {
-        client.send('hello');
-        });
-    
-    res.send("Hi Rob!");
 });
 
 app.listen( port, () => {
