@@ -16,6 +16,11 @@ export default function App(){
         username: number;
     }
 
+    let host = ''
+    if (process.env.NODE_ENV === 'development'){
+        host = 'localhost:8080';
+    }
+
     const [chats, setChats] = useState<Chat[]>([]);
     const [input, setInput] = useState("");
     const [username, setUsername] = useState(randUsername());
@@ -43,7 +48,7 @@ export default function App(){
     return (
         <div>
             <p>Welcome to doggoroulette, {username}!</p>
-            <Websocket url='ws://localhost:8080/chatting' onMessage={handleDataFromWebSocket}/>
+            <Websocket url={`ws://${host}/chatting`} onMessage={handleDataFromWebSocket}/>
             
             {/* # subscribe to chatting endpoint */}
             Let's chat: 

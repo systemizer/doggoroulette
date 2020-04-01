@@ -3,6 +3,10 @@ const app = express();
 const port = 8080;
 let expressWs = require('express-ws')(app);
 const bodyParser = require('body-parser')
+const path = require('path');
+
+// Serve the static files from the React app
+app.use(express.static(path.join(__dirname, '/../../frontend/build')));
 
 app.use(bodyParser.json())
 
@@ -23,8 +27,12 @@ app.post("/input", ( req, res ) => {
     res.send("Post is ok");
 });
 
-app.get("/", ( req, res ) => {
-    res.send("Hello world!");
+// app.get("/", ( req, res ) => {
+//     res.send("Hello world!");
+// });
+
+app.get('*', (req,res) =>{
+    res.sendFile(path.join(__dirname+'/../../frontend/build/index.html'));
 });
 
 app.listen( port, () => {
