@@ -1,6 +1,7 @@
 const express = require("express");
 const app = express();
-const port = 8080;
+const PORT = 8080;
+const HOST = '0.0.0.0';
 let expressWs = require('express-ws')(app);
 const bodyParser = require('body-parser')
 const path = require('path');
@@ -35,6 +36,6 @@ app.get('*', (req,res) =>{
     res.sendFile(path.join(__dirname+'/../../frontend/build/index.html'));
 });
 
-app.listen( port, () => {
-    console.log(`server started at http://localhost: ${port}`);
+app.listen(PORT, HOST, () => {
+    console.log(`server started at http:// ${PORT}`);
 });
