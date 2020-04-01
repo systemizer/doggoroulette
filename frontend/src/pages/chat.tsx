@@ -1,6 +1,10 @@
 import React, { useState } from "react";
 import { Button, TextInput } from "evergreen-ui";
 import Websocket from "react-websocket";
+import GiphySelect from "react-giphy-select";
+import "react-giphy-select/lib/styles.css";
+
+const giphyAPIKey = "b9tcNs4yQdwq97FKiEf1Y3NCeFntP73G";
 
 export default function App() {
   function randUsername() {
@@ -10,6 +14,15 @@ export default function App() {
   interface Chat {
     message: string;
     username: number;
+    image: string;
+  }
+
+  interface Entry {
+    images: {
+      original: {
+        url: string;
+      };
+    };
   }
 
   let host = window.location.host;
@@ -20,6 +33,7 @@ export default function App() {
   const [chats, setChats] = useState<Chat[]>([]);
   const [input, setInput] = useState("");
   const [username, setUsername] = useState(randUsername());
+  const [giph, setGiph] = useState("");
 
   async function handleClick() {
     let response = await fetch("/input", {
@@ -29,16 +43,22 @@ export default function App() {
       },
       body: JSON.stringify({
         message: input,
-        username: username
+        username: username,
+        image: giph
       })
     });
     setInput("");
+    setGiph("");
   }
 
   async function handleDataFromWebSocket(data: string) {
     let result: Chat = JSON.parse(data);
     chats.push(result);
     console.log(chats);
+  }
+
+  async function handleEntry(entry: Entry) {
+    setGiph(entry.images.original.url);
   }
 
   return (
@@ -57,6 +77,7 @@ export default function App() {
         }
         value={input}
       />
+      <GiphySelect requestKey={giphyAPIKey} onEntrySelect={handleEntry} />
       <Button onClick={handleClick} appearance="primary">
         {" "}
         Send Request to API{" "}
@@ -65,6 +86,7 @@ export default function App() {
         <div key={chat.username + index}>
           {chat.username}
           <div>{chat.message}</div>
+          <img src={chat.image} />
         </div>
       ))}
     </div>
