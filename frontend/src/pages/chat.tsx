@@ -53,7 +53,8 @@ export default function App() {
 
   async function handleDataFromWebSocket(data: string) {
     let result: Chat = JSON.parse(data);
-    chats.push(result);
+    // chats.push(result);
+    setChats(chats.concat([result]));
     console.log(chats);
   }
 
