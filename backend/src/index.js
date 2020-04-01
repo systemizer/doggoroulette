@@ -18,7 +18,7 @@ app.post("/input", ( req, res ) => {
     let aWss = expressWs.getWss('/chatting');
 
     aWss.clients.forEach(function (client) {
-        client.send(req.body.message);
+        client.send(JSON.stringify(req.body));
         });
     res.send("Post is ok");
 });
