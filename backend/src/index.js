@@ -36,6 +36,6 @@ app.get('*', (req,res) =>{
     res.sendFile(path.join(__dirname+'/../../frontend/build/index.html'));
 });
 
-app.listen(PORT, HOST, () => {
+app.listen(PORT, () => {
     console.log(`server started at http:// ${PORT}`);
 });
