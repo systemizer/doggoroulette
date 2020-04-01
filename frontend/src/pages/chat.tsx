@@ -1,70 +1,72 @@
-import React, { useState } from 'react';
-import { 
-    Button,
-    TextInput
-} from 'evergreen-ui';
-import Websocket from 'react-websocket';
+import React, { useState } from "react";
+import { Button, TextInput } from "evergreen-ui";
+import Websocket from "react-websocket";
 
-export default function App(){
-    
-    function randUsername(){
-        return 'corgie'+ Math.floor(Math.random()*100000);
-    }
-    
-    interface Chat {
-        message: string;
-        username: number;
-    }
+export default function App() {
+  function randUsername() {
+    return "corgie" + Math.floor(Math.random() * 100000);
+  }
 
-    let host = ''
-    if (process.env.NODE_ENV === 'development'){
-        host = 'localhost:8080';
-    }
+  interface Chat {
+    message: string;
+    username: number;
+  }
 
-    const [chats, setChats] = useState<Chat[]>([]);
-    const [input, setInput] = useState("");
-    const [username, setUsername] = useState(randUsername());
+  let host = window.location.host;
+  if (process.env.NODE_ENV === "development") {
+    host = "localhost:8080";
+  }
 
-    async function handleClick(){
-        let response = await fetch("/input", {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                'message': input,
-                'username': username,
-            }),
-        });
-        setInput("");
-    }
-    
-    async function handleDataFromWebSocket(data: string){
-        let result: Chat = JSON.parse(data);
-        chats.push(result);
-        console.log(chats);
-    }
+  const [chats, setChats] = useState<Chat[]>([]);
+  const [input, setInput] = useState("");
+  const [username, setUsername] = useState(randUsername());
 
-    return (
-        <div>
-            <p>Welcome to doggoroulette, {username}!</p>
-            <Websocket url={`ws://${host}/chatting`} onMessage={handleDataFromWebSocket}/>
-            
-            {/* # subscribe to chatting endpoint */}
-            Let's chat: 
-            <TextInput 
-                placeholder="Say a hello!..."
-                onChange={(e: React.ChangeEvent<HTMLInputElement>) => setInput(e.target.value)}
-                value={input}
-            />
-            <Button onClick={handleClick} appearance="primary"> Send Request to API </Button>
-            {chats.map((chat,index) => (
-                <div key={chat.username + index}>
-                    {chat.username}
-                    <div>{chat.message}</div>
-                </div>
-                ))}
-            
+  async function handleClick() {
+    let response = await fetch("/input", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        message: input,
+        username: username
+      })
+    });
+    setInput("");
+  }
+
+  async function handleDataFromWebSocket(data: string) {
+    let result: Chat = JSON.parse(data);
+    chats.push(result);
+    console.log(chats);
+  }
+
+  return (
+    <div>
+      <p>Welcome to doggoroulette, {username}!</p>
+      <Websocket
+        url={`ws://${host}/chatting`}
+        onMessage={handleDataFromWebSocket}
+      />
+      {/* # subscribe to chatting endpoint */}
+      Let's chat:
+      <TextInput
+        placeholder="Say a hello!..."
+        onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+          setInput(e.target.value)
+        }
+        value={input}
+      />
+      <Button onClick={handleClick} appearance="primary">
+        {" "}
+        Send Request to API{" "}
+      </Button>
+      {chats.map((chat, index) => (
+        <div key={chat.username + index}>
+          {chat.username}
+          <div>{chat.message}</div>
         </div>
-    )
+      ))}
+    </div>
+  );
 }

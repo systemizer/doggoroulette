@@ -1,7 +1,6 @@
 const express = require("express");
 const app = express();
-const PORT = 8080;
-const HOST = '0.0.0.0';
+const PORT = process.env.PORT || 8080;
 let expressWs = require('express-ws')(app);
 const bodyParser = require('body-parser')
 const path = require('path');
@@ -36,6 +35,6 @@ app.get('*', (req,res) =>{
     res.sendFile(path.join(__dirname+'/../../frontend/build/index.html'));
 });
 
-app.listen(PORT, HOST, () => {
+app.listen(PORT, () => {
     console.log(`server started at http:// ${PORT}`);
 });
