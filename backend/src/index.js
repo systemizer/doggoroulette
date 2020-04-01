@@ -1,6 +1,6 @@
 const express = require("express");
 const app = express();
-const PORT = 8080;
+const PORT = 80;
 const HOST = '0.0.0.0';
 let expressWs = require('express-ws')(app);
 const bodyParser = require('body-parser')
