@@ -13,7 +13,7 @@ export default function App() {
   }
 
   let host = window.location.host;
-  if (process.env.NODE_ENV !== "development") {
+  if (process.env.NODE_ENV === "development") {
     host = "localhost:8080";
   }
   console.log(host);
