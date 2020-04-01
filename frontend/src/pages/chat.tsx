@@ -16,7 +16,6 @@ export default function App() {
   if (process.env.NODE_ENV === "development") {
     host = "localhost:8080";
   }
-  console.log(host);
 
   const [chats, setChats] = useState<Chat[]>([]);
   const [input, setInput] = useState("");
