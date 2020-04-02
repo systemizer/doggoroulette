@@ -1,20 +1,16 @@
 import React, { useState } from "react";
-import { Button, TextInput } from "evergreen-ui";
+import { Pane, Button, TextInput } from "evergreen-ui";
 import Websocket from "react-websocket";
 import GiphySelect from "react-giphy-select";
 import "react-giphy-select/lib/styles.css";
+import { Chat } from "../models";
+import Chatbox from "../components/chatbox";
 
 const giphyAPIKey = "b9tcNs4yQdwq97FKiEf1Y3NCeFntP73G";
 
 export default function App() {
   function randUsername() {
     return "corgie" + Math.floor(Math.random() * 100000);
-  }
-
-  interface Chat {
-    message: string;
-    username: number;
-    image: string;
   }
 
   interface Entry {
@@ -54,7 +50,7 @@ export default function App() {
   async function handleDataFromWebSocket(data: string) {
     let result: Chat = JSON.parse(data);
     // chats.push(result);
-    setChats(chats.concat([result]));
+    setChats([result].concat(chats));
     console.log(chats);
   }
 
@@ -63,33 +59,34 @@ export default function App() {
   }
 
   return (
-    <div>
-      <p>Welcome to doggoroulette, {username}!</p>
-      <Websocket
-        url={`ws://${host}/chatting`}
-        onMessage={handleDataFromWebSocket}
-      />
-      {/* # subscribe to chatting endpoint */}
-      Let's chat:
-      <TextInput
-        placeholder="Say a hello!..."
-        onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-          setInput(e.target.value)
-        }
-        value={input}
-      />
-      <GiphySelect requestKey={giphyAPIKey} onEntrySelect={handleEntry} />
-      <Button onClick={handleClick} appearance="primary">
-        {" "}
-        Send Request to API{" "}
-      </Button>
-      {chats.map((chat, index) => (
-        <div key={chat.username + index}>
-          {chat.username}
-          <div>{chat.message}</div>
-          <img src={chat.image} />
-        </div>
-      ))}
-    </div>
+    <Pane display="flex" justifyContent="flex-start">
+      <Pane padding="16px">
+        <p>Welcome to doggoroulette, {username}!</p>
+        <Websocket
+          url={`ws://${host}/chatting`}
+          onMessage={handleDataFromWebSocket}
+        />
+        {/* # subscribe to chatting endpoint */}
+        Let's chat:
+        <TextInput
+          placeholder="Say a hello!..."
+          onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+            setInput(e.target.value)
+          }
+          value={input}
+        />
+        <GiphySelect requestKey={giphyAPIKey} onEntrySelect={handleEntry} />
+        <Button onClick={handleClick} appearance="primary">
+          {" "}
+          Send Request to API{" "}
+        </Button>
+      </Pane>
+
+      <Pane flex={1}>
+        {chats.map((chat, index) => (
+          <Chatbox key={chat.username + index} chat={chat} />
+        ))}
+      </Pane>
+    </Pane>
   );
 }
