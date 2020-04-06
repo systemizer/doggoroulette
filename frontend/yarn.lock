@@ -8973,10 +8973,9 @@ react-transition-group@^2.5.0:
     prop-types "^15.6.2"
     react-lifecycles-compat "^3.0.4"
 
-react-websocket@^2.1.0:
+"react-websocket@https://github.com/systemizer/react-websocket#systemizer/multiple-connections":
   version "2.1.0"
-  resolved "https://registry.yarnpkg.com/react-websocket/-/react-websocket-2.1.0.tgz#1150ce55aaa38e845f5711684266a823781ee2e4"
-  integrity sha512-VstINrNXmp08aol9TQt1LZQgtzmad6CjTvEX8TYAFxU7K0ByMtDP7T2WMtgNEttWtPThVA7TDhHNu+fGTaAExQ==
+  resolved "https://github.com/systemizer/react-websocket#2098e7f0dbbe1fb36270892e0017437c0c2288c8"
 
 react@^16.13.1:
   version "16.13.1"
