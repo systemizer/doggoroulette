@@ -3,6 +3,7 @@ import { Pane, Button, TextInput } from "evergreen-ui";
 import Websocket from "react-websocket";
 import GiphySelect from "react-giphy-select";
 import "react-giphy-select/lib/styles.css";
+import { host } from "../config";
 import { Chat } from "../models";
 import Chatbox from "../components/chatbox";
 
@@ -19,11 +20,6 @@ export default function App() {
         url: string;
       };
     };
-  }
-
-  let host = window.location.host;
-  if (process.env.NODE_ENV === "development") {
-    host = "localhost:8080";
   }
 
   const [chats, setChats] = useState<Chat[]>([]);

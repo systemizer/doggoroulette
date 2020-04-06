@@ -10,6 +10,23 @@ app.use(express.static(path.join(__dirname, "/../../frontend/build")));
 
 app.use(bodyParser.json());
 
+app.ws("/waiting", function (ws, req) {
+  // let aWss = expressWs.getWss("/waiting");
+  console.log("Good morning");
+  // console.log(aWss.clients.size);
+  let aWss = expressWs.getWss("/waiting");
+
+  aWss.clients.forEach(function (client) {
+    console.log(client.readyState);
+    console.log(client);
+  });
+
+  // if (ws.readyState === 1) {
+  //   console.log("hello Rob!");
+  //   // console.log(aWss.clients);
+  // }
+});
+
 app.ws("/chatting", function (ws, req) {
   ws.on("message", function (msg) {
     // console.log(msg);
