@@ -1,17 +1,22 @@
 import React, { useState } from "react";
 import Websocket from "react-websocket";
-import { Link } from "react-router-dom";
+import { Link, withRouter, RouteComponentProps } from "react-router-dom";
 import { Button, Pane } from "evergreen-ui";
 import { host } from "../config";
+import { Chatroom } from "../models";
 
-export default function App() {
+function App(props: RouteComponentProps) {
   const [isQueueing, setQueue] = useState(false);
 
   async function openWebSocket() {
     setQueue(true);
   }
 
-  async function handleQueueFromWebSocket() {}
+  async function handleQueueFromWebSocket(data: string) {
+    let result: Chatroom = JSON.parse(data);
+    console.log(result);
+    props.history.push(`/chat/${result["id"]}`);
+  }
 
   return (
     <Pane display="flex" height="100vh">
@@ -26,14 +31,15 @@ export default function App() {
         </Button>
       </Pane>
       <Pane>
-        {true && (
+        {isQueueing && (
           <Websocket
             url={`ws://${host}/waiting`}
             onMessage={handleQueueFromWebSocket}
-            debug={true}
           />
         )}
       </Pane>
     </Pane>
   );
 }
+
+export default withRouter(App);

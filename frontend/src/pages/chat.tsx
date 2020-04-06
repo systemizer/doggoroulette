@@ -1,15 +1,16 @@
 import React, { useState } from "react";
+import { withRouter, RouteComponentProps } from "react-router-dom";
 import { Pane, Button, TextInput } from "evergreen-ui";
 import Websocket from "react-websocket";
 import GiphySelect from "react-giphy-select";
 import "react-giphy-select/lib/styles.css";
 import { host } from "../config";
-import { Chat } from "../models";
+import { Chat, ChatroomParams } from "../models";
 import Chatbox from "../components/chatbox";
 
 const giphyAPIKey = "b9tcNs4yQdwq97FKiEf1Y3NCeFntP73G";
 
-export default function App() {
+function App(props: RouteComponentProps<ChatroomParams>) {
   function randUsername() {
     return "corgie" + Math.floor(Math.random() * 100000);
   }
@@ -36,7 +37,8 @@ export default function App() {
       body: JSON.stringify({
         message: input,
         username: username,
-        image: giph
+        image: giph,
+        id: props.match.params.id
       })
     });
     setInput("");
@@ -59,7 +61,7 @@ export default function App() {
       <Pane padding="16px">
         <p>Welcome to doggoroulette, {username}!</p>
         <Websocket
-          url={`ws://${host}/chatting`}
+          url={`ws://${host}/chat/${props.match.params.id}`}
           onMessage={handleDataFromWebSocket}
         />
         {/* # subscribe to chatting endpoint */}
@@ -86,3 +88,5 @@ export default function App() {
     </Pane>
   );
 }
+
+export default withRouter(App);

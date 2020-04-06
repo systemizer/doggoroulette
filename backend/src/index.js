@@ -11,23 +11,24 @@ app.use(express.static(path.join(__dirname, "/../../frontend/build")));
 app.use(bodyParser.json());
 
 app.ws("/waiting", function (ws, req) {
-  // let aWss = expressWs.getWss("/waiting");
-  console.log("Good morning");
-  // console.log(aWss.clients.size);
   let aWss = expressWs.getWss("/waiting");
+  let otherClients = Array.from(aWss.clients).filter(client => ws !== client);
 
-  aWss.clients.forEach(function (client) {
-    console.log(client.readyState);
-    console.log(client);
-  });
+  if (otherClients.length === 0) {
+    return;
+  }
 
-  // if (ws.readyState === 1) {
-  //   console.log("hello Rob!");
-  //   // console.log(aWss.clients);
-  // }
+  let chatroom = {
+    id: Math.floor(Math.random() * 100000)
+  };
+
+  // Send to other client
+  otherClients[0].send(JSON.stringify(chatroom));
+  // Send to current client
+  ws.send(JSON.stringify(chatroom));
 });
 
-app.ws("/chatting", function (ws, req) {
+app.ws("/chat/*", function (ws, req) {
   ws.on("message", function (msg) {
     // console.log(msg);
   });
@@ -36,7 +37,7 @@ app.ws("/chatting", function (ws, req) {
 
 app.post("/input", (req, res) => {
   // console.log(req.body);
-  let aWss = expressWs.getWss("/chatting");
+  let aWss = expressWs.getWss(`/chat/${req.body.id}`);
 
   aWss.clients.forEach(function (client) {
     client.send(JSON.stringify(req.body));
