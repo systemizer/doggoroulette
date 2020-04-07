@@ -61,7 +61,7 @@ function App(props: RouteComponentProps<ChatroomParams>) {
       <Pane padding="16px">
         <p>Welcome to doggoroulette, {username}!</p>
         <Websocket
-          url={`ws://${host}/chat/${props.match.params.id}`}
+          url={`ws://${host}/chat?id=${props.match.params.id}`}
           onMessage={handleDataFromWebSocket}
         />
         {/* # subscribe to chatting endpoint */}

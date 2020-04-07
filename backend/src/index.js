@@ -4,15 +4,32 @@ const PORT = process.env.PORT || 8080;
 let expressWs = require("express-ws")(app);
 const bodyParser = require("body-parser");
 const path = require("path");
+const hash = require("object-hash");
+const { v4 } = require("uuid");
 
 // Serve the static files from the React app
 app.use(express.static(path.join(__dirname, "/../../frontend/build")));
 
 app.use(bodyParser.json());
 
+let clientConnections = {};
+let waitingConnections = [];
+
 app.ws("/waiting", function (ws, req) {
-  let aWss = expressWs.getWss("/waiting");
-  let otherClients = Array.from(aWss.clients).filter(client => ws !== client);
+  console.log(
+    `This is waiting, the length of the connections: ${waitingConnections.length}`
+  );
+  console.log();
+  // let aWss = expressWs.getWss("/waiting");
+  waitingConnections.push(ws);
+  let otherClients = waitingConnections.filter(client => ws !== client);
+
+  ws.on("close", function () {
+    let waitingIndex = waitingConnections.indexOf(ws);
+    if (waitingIndex !== -1) {
+      waitingConnections.splice(waitingIndex, 1);
+    }
+  });
 
   if (otherClients.length === 0) {
     return;
@@ -21,25 +38,36 @@ app.ws("/waiting", function (ws, req) {
   let chatroom = {
     id: Math.floor(Math.random() * 100000)
   };
-
   // Send to other client
   otherClients[0].send(JSON.stringify(chatroom));
   // Send to current client
   ws.send(JSON.stringify(chatroom));
 });
 
-app.ws("/chat/*", function (ws, req) {
-  ws.on("message", function (msg) {
-    // console.log(msg);
+app.ws("/chat", function (ws, req) {
+  //Hash once for performance reasons
+  console.log(`This is chatting`);
+  console.log(`This is the chatting path ${req.query.id}`);
+  let hash_val = v4();
+  console.log(`This is the uuid: ${hash_val}`);
+
+  if (clientConnections[req.query.id] === undefined) {
+    clientConnections[req.query.id] = { [hash_val]: ws };
+  } else {
+    clientConnections[req.query.id][hash_val] = ws;
+  }
+
+  ws.on("close", function () {
+    delete clientConnections[req.query.id][hash_val];
   });
-  //   console.log("socket", req);
 });
 
 app.post("/input", (req, res) => {
-  // console.log(req.body);
-  let aWss = expressWs.getWss(`/chat/${req.body.id}`);
+  console.log(clientConnections);
+  aWss = clientConnections[req.body.id];
 
-  aWss.clients.forEach(function (client) {
+  Object.values(aWss).forEach(function (client) {
+    console.log(client);
     client.send(JSON.stringify(req.body));
   });
   res.send("Post is ok");
