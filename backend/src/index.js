@@ -16,11 +16,6 @@ let clientConnections = {};
 let waitingConnections = [];
 
 app.ws("/waiting", function (ws, req) {
-  console.log(
-    `This is waiting, the length of the connections: ${waitingConnections.length}`
-  );
-  console.log();
-  // let aWss = expressWs.getWss("/waiting");
   waitingConnections.push(ws);
   let otherClients = waitingConnections.filter(client => ws !== client);
 
@@ -46,10 +41,7 @@ app.ws("/waiting", function (ws, req) {
 
 app.ws("/chat", function (ws, req) {
   //Hash once for performance reasons
-  console.log(`This is chatting`);
-  console.log(`This is the chatting path ${req.query.id}`);
   let hash_val = v4();
-  console.log(`This is the uuid: ${hash_val}`);
 
   if (clientConnections[req.query.id] === undefined) {
     clientConnections[req.query.id] = { [hash_val]: ws };
