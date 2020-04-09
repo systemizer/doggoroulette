@@ -8823,10 +8823,9 @@ react-event-listener@^0.5.1:
     prop-types "^15.6.0"
     warning "^3.0.0"
 
-react-giphy-select@^1.0.3:
+"react-giphy-select@https://github.com/systemizer/react-giphy-select#dogs":
   version "1.0.3"
-  resolved "https://registry.yarnpkg.com/react-giphy-select/-/react-giphy-select-1.0.3.tgz#f2f64e919af552f3925108fb962795b82c4e45ac"
-  integrity sha512-WkFkyRRuDuq20aHJzGhDNw31SEl/w+/BCOei2vPJ0RPdBurqoTF9x8vM4HT47PFZ/w51Gllxz/eZyxZqJ1c+PA==
+  resolved "https://github.com/systemizer/react-giphy-select#98065b037e03789c634fefe1a1cd6d4293ee13a6"
   dependencies:
     isomorphic-fetch "^2.2.1"
     prop-types "^15.5.8"

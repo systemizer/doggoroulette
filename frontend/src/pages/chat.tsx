@@ -9,10 +9,23 @@ import { Chat, ChatroomParams } from "../models";
 import Chatbox from "../components/chatbox";
 
 const giphyAPIKey = "b9tcNs4yQdwq97FKiEf1Y3NCeFntP73G";
+const DOGQUERIES = [
+    "dog",
+    "puppy",
+    "corgi",
+    "pomeranian",
+    "puppies",
+    "doggo",
+    "poodle"
+];
 
 function App(props: RouteComponentProps<ChatroomParams>) {
     function randUsername() {
         return "corgie" + Math.floor(Math.random() * 100000);
+    }
+
+    function randomDog() {
+        return DOGQUERIES[Math.floor(Math.random() * DOGQUERIES.length)];
     }
 
     interface Entry {
@@ -33,6 +46,7 @@ function App(props: RouteComponentProps<ChatroomParams>) {
     ]);
     const [input, setInput] = useState("");
     const [username, setUsername] = useState(randUsername());
+    const [dogQuery, setDogQuery] = useState(randomDog());
     const [giph, setGiph] = useState("");
 
     async function handleClick() {
@@ -91,7 +105,11 @@ function App(props: RouteComponentProps<ChatroomParams>) {
                     />
                     {/* # subscribe to chatting endpoint */}
                     <Pane marginBottom={majorScale(2)}>
-                        <GiphySelect requestKey={giphyAPIKey} onEntrySelect={handleEntry} />
+                        <GiphySelect
+                            query={dogQuery}
+                            requestKey={giphyAPIKey}
+                            onEntrySelect={handleEntry}
+                        />
                     </Pane>
                     <Pane marginBottom={majorScale(2)}>
                         <TextInput

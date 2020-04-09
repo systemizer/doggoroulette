@@ -14,7 +14,7 @@
     "evergreen-ui": "^4.24.0",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
-    "react-giphy-select": "^1.0.3",
+    "react-giphy-select": "https://github.com/systemizer/react-giphy-select#dogs",
     "react-router-dom": "^5.1.2",
     "react-scripts": "3.4.1",
     "react-websocket": "https://github.com/systemizer/react-websocket#systemizer/multiple-connections",
