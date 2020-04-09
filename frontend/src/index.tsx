@@ -5,20 +5,22 @@ import Welcome from "./pages/welcome";
 import Chat from "./pages/chat";
 import * as serviceWorker from "./serviceWorker";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import "./fonts/HelloStockholm-Regular.ttf";
+import "./fonts/NatureSpiritRegular.otf";
 
 ReactDOM.render(
-  <React.StrictMode>
-    <Router>
-      <Switch>
-        <Route path="/welcome">
-          <Welcome />
-        </Route>
-        <Route path="/chat/:id" component={Chat} />
-      </Switch>
-    </Router>
-  </React.StrictMode>,
+    <React.StrictMode>
+        <Router>
+            <Switch>
+                <Route path="/">
+                    <Welcome />
+                </Route>
+                <Route path="/chat/:id" component={Chat} />
+            </Switch>
+        </Router>
+    </React.StrictMode>,
 
-  document.getElementById("root")
+    document.getElementById("root")
 );
 
 // If you want your app to work offline and load faster, you can change

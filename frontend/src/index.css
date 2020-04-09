@@ -11,3 +11,23 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+@font-face {
+  font-family: 'HelloStockholm';
+  src: local('HelloStockholm'), url(./fonts/HelloStockholm-Regular.ttf) format('truetype');
+}
+
+@font-face {
+  font-family: 'NatureSpirit';
+  src: local('NatureSpirit'), url(./fonts/NatureSpiritRegular.otf) format('opentype');
+}
+
+
+
+#hometitle {
+    font-family: HelloStockholm
+}
+
+#homesubtitle {
+    font-family: NatureSpirit
+}
