@@ -12,10 +12,10 @@ ReactDOM.render(
     <React.StrictMode>
         <Router>
             <Switch>
-                <Route path="/">
+                <Route exact={true} path="/">
                     <Welcome />
                 </Route>
-                <Route path="/chat/:id" component={Chat} />
+                <Route exact={true} path="/chat/:id" component={Chat} />
             </Switch>
         </Router>
     </React.StrictMode>,

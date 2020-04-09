@@ -1,0 +1,10 @@
+.chatbox:hover {
+    background: lemonchiffon;
+    cursor: pointer;
+    transition: background .7s ease;
+
+}
+
+.chatbox {
+    transition: background .7s ease;
+}

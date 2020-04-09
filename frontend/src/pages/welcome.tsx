@@ -51,9 +51,20 @@ function App(props: RouteComponentProps) {
                 </Pane>
             </Pane>
 
-            <Pane flex={1} display="flex">
-                <Pane margin="auto" display="flex" flexDirection="column" alignItems="center">
-                    <Text marginBottom={majorScale(4)} lineHeight={"100%"} fontSize="80px">🐶</Text>
+            <Pane background="whitesmoke" flex={1} display="flex">
+                <Pane
+                    margin="auto"
+                    display="flex"
+                    flexDirection="column"
+                    alignItems="center"
+                >
+                    <Text
+                        marginBottom={majorScale(8)}
+                        lineHeight={"100%"}
+                        fontSize="80px"
+                    >
+                        🐶
+          </Text>
                     <Button
                         borderRadius="0px"
                         onClick={openWebSocket}
@@ -74,7 +85,7 @@ function App(props: RouteComponentProps) {
                     />
                 )}
             </Pane>
-        </Pane >
+        </Pane>
     );
 }
 

@@ -1,13 +1,13 @@
 export interface Chat {
-  message: string;
-  username: number;
-  image: string;
+    message: string;
+    username: string;
+    image: string;
 }
 
 export interface Chatroom {
-  id: number;
+    id: number;
 }
 
 export interface ChatroomParams {
-  id: string;
+    id: string;
 }
