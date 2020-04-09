@@ -27,7 +27,8 @@ function App(props: RouteComponentProps<ChatroomParams>) {
         {
             message: "Hello world",
             username: randUsername(),
-            image: "https://s3.amazonaws.com/cdn-origin-etr.akc.org/wp-content/uploads/2017/11/25201637/day_2_dec_14_085-400x267.jpg"
+            image:
+                "https://s3.amazonaws.com/cdn-origin-etr.akc.org/wp-content/uploads/2017/11/25201637/day_2_dec_14_085-400x267.jpg"
         }
     ]);
     const [input, setInput] = useState("");
@@ -63,10 +64,27 @@ function App(props: RouteComponentProps<ChatroomParams>) {
     }
 
     return (
-        <Pane height="100vh" display="flex" >
-            <Pane height="100%" flexBasis={"200px"} paddingLeft={majorScale(2)} paddingRight={majorScale(2)} borderRight background="lemonchiffon">
+        <Pane height="100vh" display="flex">
+            <Pane
+                height="100%"
+                flexBasis={"200px"}
+                paddingLeft={majorScale(2)}
+                paddingRight={majorScale(2)}
+                borderRight
+                background="lemonchiffon"
+            >
                 <Pane padding={majorScale(2)}>
-                    <Heading textAlign="right" fontSize={"80px"} lineHeight="100%" fontFamily={"HelloStockholm"} marginBottom={majorScale(2)} size={600}>Welcome to doggoroulette, <br />{username}!</Heading>
+                    <Heading
+                        textAlign="right"
+                        fontSize={"80px"}
+                        lineHeight="100%"
+                        fontFamily={"HelloStockholm"}
+                        marginBottom={majorScale(2)}
+                        size={600}
+                    >
+                        Welcome to doggoroulette, <br />
+                        {username}!
+          </Heading>
                     <Websocket
                         url={`ws://${host}/chat?id=${props.match.params.id}`}
                         onMessage={handleDataFromWebSocket}
@@ -88,12 +106,22 @@ function App(props: RouteComponentProps<ChatroomParams>) {
                         />
                     </Pane>
 
-                    <Button intent="success" textAlign="center" display="flex" height={48} fontFamily="NatureSpirit" fontSize="30px" width="100%" onClick={handleClick} appearance="primary">
+                    <Button
+                        intent="success"
+                        textAlign="center"
+                        display="flex"
+                        height={48}
+                        fontFamily="NatureSpirit"
+                        fontSize="30px"
+                        width="100%"
+                        onClick={handleClick}
+                        appearance="primary"
+                    >
                         <Pane margin="auto">Send Dog</Pane>
                     </Button>
                 </Pane>
             </Pane>
-            <Pane flex={2} background="whitesmoke">
+            <Pane flex={2} background="whitesmoke" overflowY="scroll">
                 <Pane flex={1} padding={majorScale(4)}>
                     {chats.map((chat, index) => (
                         <Chatbox key={chat.username + index} chat={chat} />
