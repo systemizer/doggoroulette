@@ -52,6 +52,7 @@ function App(props: RouteComponentProps) {
             </Pane>
 
             <Pane background="whitesmoke" flex={1} display="flex">
+                <canvas id="myCanvas"></canvas>
                 <Pane
                     margin="auto"
                     display="flex"
@@ -62,6 +63,7 @@ function App(props: RouteComponentProps) {
                         marginBottom={majorScale(8)}
                         lineHeight={"100%"}
                         fontSize="80px"
+                        zIndex={2}
                     >
                         🐶
           </Text>
@@ -72,6 +74,7 @@ function App(props: RouteComponentProps) {
                         fontFamily="NatureSpirit"
                         height={80}
                         isLoading={isQueueing}
+                        zIndex={2}
                     >
                         {isQueueing ? "Finding a match" : "Start sending doggos!"}
                     </Button>
