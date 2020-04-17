@@ -8,19 +8,25 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import "./fonts/HelloStockholm-Regular.ttf";
 import "./fonts/NatureSpiritRegular.otf";
 
-ReactDOM.render(
-    <React.StrictMode>
-        <Router>
-            <Switch>
-                <Route exact={true} path="/">
-                    <Welcome />
-                </Route>
-                <Route exact={true} path="/chat/:id" component={Chat} />
-            </Switch>
-        </Router>
-    </React.StrictMode>,
+declare global {
+  interface Window {
+    analytics: any;
+  }
+}
 
-    document.getElementById("root")
+ReactDOM.render(
+  <React.StrictMode>
+    <Router>
+      <Switch>
+        <Route exact={true} path="/">
+          <Welcome />
+        </Route>
+        <Route exact={true} path="/chat/:id" component={Chat} />
+      </Switch>
+    </Router>
+  </React.StrictMode>,
+
+  document.getElementById("root")
 );
 
 // If you want your app to work offline and load faster, you can change

@@ -41,26 +41,47 @@ app.ws("/waiting", function (ws, req) {
 
 app.ws("/chat", function (ws, req) {
   //Hash once for performance reasons
-  let hash_val = v4();
+  // let hash_val = v4();
+  // clientConnections[req.query.id] = { [hash_val]: ws };
 
   if (clientConnections[req.query.id] === undefined) {
-    clientConnections[req.query.id] = { [hash_val]: ws };
+    clientConnections[req.query.id] = { [req.query.username]: ws };
   } else {
-    clientConnections[req.query.id][hash_val] = ws;
+    clientConnections[req.query.id][req.query.username] = ws;
   }
-
+  // Send who is connected, as soon as connection is made
+  aWss = clientConnections[req.query.id];
+  Object.values(aWss).forEach(function (client) {
+    client.send(
+      JSON.stringify({
+        type: "connectionStatus",
+        payload: Object.keys(clientConnections[req.query.id])
+      })
+    );
+  });
   ws.on("close", function () {
-    delete clientConnections[req.query.id][hash_val];
+    // Send who is connected, when connection is closed
+    delete clientConnections[req.query.id][req.query.username];
+    aWss = clientConnections[req.query.id];
+
+    Object.values(aWss).forEach(function (client) {
+      if (client.readyState === 1) {
+        client.send(
+          JSON.stringify({
+            type: "connectionStatus",
+            payload: Object.keys(clientConnections[req.query.id])
+          })
+        );
+      }
+    });
   });
 });
 
 app.post("/input", (req, res) => {
-  console.log(clientConnections);
   aWss = clientConnections[req.body.id];
 
   Object.values(aWss).forEach(function (client) {
-    console.log(client);
-    client.send(JSON.stringify(req.body));
+    client.send(JSON.stringify({ type: "message", payload: req.body }));
   });
   res.send("Post is ok");
 });
