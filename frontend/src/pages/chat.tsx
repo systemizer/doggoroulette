@@ -146,12 +146,17 @@ function App(props: RouteComponentProps<ChatroomParams>) {
             fontFamily="NatureSpirit"
             fontSize={"16px"}
             border
+            lineHeight={"130%"}
             borderColor={"whitesmoke"}
             borderWidth="1px"
           >
             Currently Chattin' : &nbsp;
             {currentUsers.map(currentUserUsername => (
-              <Badge color="orange" marginRight={majorScale(1)}>
+              <Badge
+                key={currentUserUsername}
+                color="orange"
+                marginRight={majorScale(1)}
+              >
                 {currentUserUsername}
               </Badge>
             ))}
