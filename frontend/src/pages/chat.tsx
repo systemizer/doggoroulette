@@ -55,7 +55,7 @@ function App(props: RouteComponentProps<ChatroomParams>) {
       username,
       id: props.match.params.id
     });
-  });
+  }, []);
 
   async function sendMessage() {
     let response = await fetch("/input", {
