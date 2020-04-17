@@ -51,7 +51,7 @@ function App(props: RouteComponentProps<ChatroomParams>) {
   const [currentUsers, setCurrentUsers] = useState([]);
 
   useEffect(() => {
-    window.analytics.track("User Matched", {
+    window.analytics.track("User Really Matched", {
       username,
       id: props.match.params.id
     });
