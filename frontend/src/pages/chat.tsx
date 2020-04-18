@@ -28,7 +28,7 @@ const DOGQUERIES = [
 
 function App(props: RouteComponentProps<ChatroomParams>) {
   function randUsername() {
-    return "corgie" + Math.floor(Math.random() * 100000);
+    return "corgi" + Math.floor(Math.random() * 100000);
   }
 
   function randomDog() {
@@ -84,15 +84,12 @@ function App(props: RouteComponentProps<ChatroomParams>) {
 
   async function handleDataFromWebSocket(data: string) {
     let result: WebSocketData = JSON.parse(data);
-    console.log("All the data came in");
     if (result.type === "message") {
       let message: Chat = result.payload;
       setChats([message].concat(chats));
     }
     if (result.type == "connectionStatus") {
-      console.log(result.payload);
       setCurrentUsers(result.payload);
-      console.log(currentUsers);
     }
   }
 
