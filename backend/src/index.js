@@ -86,6 +86,10 @@ app.post("/input", (req, res) => {
   res.send("Post is ok");
 });
 
+app.get("/.well-known/acme-challenge/jXEn8hfFi-H_PP8mZbHWo8MaZ7T4ltajm3Ghd5cx65o", (req, res) => {
+  res.sendFile(path.join(__dirname + "/challenge.txt"));
+});
+
 app.get("*", (req, res) => {
   res.sendFile(path.join(__dirname + "/../../frontend/build/index.html"));
 });
