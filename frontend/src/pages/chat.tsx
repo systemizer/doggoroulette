@@ -132,7 +132,9 @@ function App(props: RouteComponentProps<ChatroomParams>) {
             {username}!
           </Heading>
           <Websocket
-            url={`ws://${host}/chat?id=${props.match.params.id}&username=${username}`}
+            url={`${
+              window.location.protocol === "https:" ? "wss" : "ws"
+            }://${host}/chat?id=${props.match.params.id}&username=${username}`}
             onMessage={handleDataFromWebSocket}
           />
           {/* # subscribe to chatting endpoint */}

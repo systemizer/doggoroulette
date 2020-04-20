@@ -84,7 +84,9 @@ function App(props: RouteComponentProps) {
       <Pane>
         {isQueueing && (
           <Websocket
-            url={`ws://${host}/waiting`}
+            url={`${
+              window.location.protocol === "https:" ? "wss" : "ws"
+            }://${host}/waiting`}
             onMessage={handleQueueFromWebSocket}
           />
         )}
