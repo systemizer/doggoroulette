@@ -14,6 +14,7 @@ import "react-giphy-select/lib/styles.css";
 import { host } from "../config";
 import { Chat, ChatroomParams, Entry, WebSocketData } from "../models";
 import Chatbox from "../components/chatbox";
+import ReactList from "react-list";
 
 const giphyAPIKey = "b9tcNs4yQdwq97FKiEf1Y3NCeFntP73G";
 const DOGQUERIES = [
@@ -109,6 +110,10 @@ function App(props: RouteComponentProps<ChatroomParams>) {
     }
   }
 
+  function getChatBox(index: number, key: string | number) {
+    return <Chatbox key={key} chat={chats[index]} />;
+  }
+
   return (
     <Pane height="100vh" display="flex">
       <Pane
@@ -196,9 +201,11 @@ function App(props: RouteComponentProps<ChatroomParams>) {
       </Pane>
       <Pane flex={2} background="whitesmoke" overflowY="scroll">
         <Pane flex={1} padding={majorScale(4)}>
-          {chats.map((chat, index) => (
-            <Chatbox key={chat.username + index} chat={chat} />
-          ))}
+          <ReactList
+            itemRenderer={getChatBox}
+            length={chats.length}
+            type="variable"
+          />
         </Pane>
       </Pane>
     </Pane>
